@@ -1,0 +1,557 @@
+{
+  "nombre": "Fundación para las Artes",
+  "enlace": "",
+  "actualizado": "2026-11-16",
+  "personas": [
+    "Bene",
+    "Augusto",
+    "Vane",
+    "Karen",
+    "Adri",
+    "Ger",
+    "Simm",
+    "Juan P",
+    "Marr"
+  ],
+  "areas": [
+    {
+      "id": "musica",
+      "nombre": "Música"
+    },
+    {
+      "id": "visuales",
+      "nombre": "Artes visuales"
+    },
+    {
+      "id": "eventos",
+      "nombre": "Eventos"
+    },
+    {
+      "id": "fondos",
+      "nombre": "Fondos"
+    },
+    {
+      "id": "publicaciones",
+      "nombre": "Publicaciones"
+    },
+    {
+      "id": "web",
+      "nombre": "Web y difusión"
+    },
+    {
+      "id": "tramites",
+      "nombre": "Trámites y legales"
+    },
+    {
+      "id": "mantenimiento",
+      "nombre": "Sedes y mantenimiento"
+    }
+  ],
+  "proyectos": [
+    {
+      "id": "p1",
+      "titulo": "Publicar Lord Meher VII",
+      "estado": "marcha",
+      "area": "publicaciones",
+      "resp": [
+        "Bene",
+        "Vane",
+        "Adri"
+      ],
+      "fecha": "",
+      "nota": "",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "mwidskjr3nrh",
+          "texto": "Terminar chequeo",
+          "quien": "Vane",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "titulo": "ORDEN DRIVE",
+      "estado": "marcha",
+      "area": "publicaciones",
+      "resp": [
+        "Bene",
+        "Adri"
+      ],
+      "fecha": "",
+      "nota": "",
+      "codigo": "",
+      "adj": [],
+      "tareas": []
+    },
+    {
+      "id": "mwie2pi7gm6n",
+      "titulo": "DO - Hacer macetero con trompito y materiales reciclados",
+      "estado": "ideas",
+      "area": "",
+      "resp": [
+        "Ger"
+      ],
+      "fecha": "",
+      "nota": "",
+      "codigo": "",
+      "adj": [],
+      "tareas": []
+    },
+    {
+      "id": "r8p01",
+      "titulo": "Urna para 47",
+      "estado": "decidido",
+      "area": "fondos",
+      "resp": [
+        "Bene"
+      ],
+      "fecha": "",
+      "nota": "",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p01t1",
+          "texto": "Conseguir una urna",
+          "quien": "Bene",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p01t2",
+          "texto": "Ubicarla y habilitarla en el 47",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p02",
+      "titulo": "Decorar y pintar la urna del DO",
+      "estado": "decidido",
+      "area": "visuales",
+      "resp": [],
+      "fecha": "",
+      "nota": "",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p02t1",
+          "texto": "Fijar fecha para la jornada de arte",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p02t2",
+          "texto": "Conseguir pinturas y materiales",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p02t3",
+          "texto": "Pintar y decorar la urna en la jornada",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p03",
+      "titulo": "Hacer circular las urnas y bonos contribución",
+      "estado": "decidido",
+      "area": "fondos",
+      "resp": [],
+      "fecha": "",
+      "nota": "Los gastos de la Fundación son de unos $800.000 por mes.",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p03t1",
+          "texto": "Definir por dónde circulan las urnas",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p03t2",
+          "texto": "Armar bonos contribución para compras puntuales",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p03t3",
+          "texto": "Primeras compras: traje de apicultura y horno pizzero",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p04",
+      "titulo": "Balances 2024 y 2025",
+      "estado": "marcha",
+      "area": "tramites",
+      "resp": [
+        "Ger"
+      ],
+      "fecha": "",
+      "nota": "",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p04t1",
+          "texto": "Ir personalmente a seguir el trámite",
+          "quien": "Ger",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p04t2",
+          "texto": "Conseguir el certificado de vigencia",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p05",
+      "titulo": "Descuentos en servicios para fundaciones",
+      "estado": "trabado",
+      "area": "tramites",
+      "resp": [],
+      "fecha": "",
+      "nota": "el certificado de vigencia, que sale con los balances 2024 y 2025.",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p05t1",
+          "texto": "Averiguar qué servicios tienen descuento para fundaciones",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p05t2",
+          "texto": "Pedir los descuentos",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p06",
+      "titulo": "Segundo testimonio del testamento de J.",
+      "estado": "marcha",
+      "area": "tramites",
+      "resp": [
+        "Ger",
+        "Bene"
+      ],
+      "fecha": "",
+      "nota": "",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p06t1",
+          "texto": "Revisar la caja que tiene Bene",
+          "quien": "Bene",
+          "hecho": true,
+          "adj": []
+        },
+        {
+          "id": "r8p06t2",
+          "texto": "Hablar con J.",
+          "quien": "Ger",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p06t3",
+          "texto": "Contactar al escribano",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p06t4",
+          "texto": "Decidir si se pide un segundo testimonio o se hace uno nuevo",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p07",
+      "titulo": "Discursos: poner la versión oficial en la web",
+      "estado": "decidido",
+      "area": "web",
+      "resp": [],
+      "fecha": "",
+      "nota": "La versión de los mexicanos es la oficial; ir reemplazando la que está en la web.",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p07t1",
+          "texto": "Conseguir los archivos de la versión de los mexicanos",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p07t2",
+          "texto": "Reemplazar en la web la versión actual",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p08",
+      "titulo": "Subir traducciones a la nube para compararlas",
+      "estado": "decidido",
+      "area": "publicaciones",
+      "resp": [
+        "Adri"
+      ],
+      "fecha": "",
+      "nota": "",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p08t1",
+          "texto": "Subir las traducciones ya hechas",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p08t2",
+          "texto": "Compararlas con los originales en inglés (empezar por Mehera-Meher)",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p09",
+      "titulo": "Feria del 22/11",
+      "estado": "trabado",
+      "area": "eventos",
+      "resp": [],
+      "fecha": "2026-11-22",
+      "nota": "",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p09t1",
+          "texto": "Hacer tarjetitas o una pequeña publicación con datos de la Fundación",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p09t2",
+          "texto": "Ver si se puede llevar una compu para mostrar la página web",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p10",
+      "titulo": "Jornada de apicultura: limpiar cera y hacer velas",
+      "estado": "decidido",
+      "area": "eventos",
+      "resp": [],
+      "fecha": "",
+      "nota": "",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p10t1",
+          "texto": "Fijar fecha",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p10t2",
+          "texto": "Limpiar la cera entre todos",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p10t3",
+          "texto": "Hacer velas con esa cera",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p11",
+      "titulo": "Mantenimiento del DO",
+      "estado": "decidido",
+      "area": "mantenimiento",
+      "resp": [],
+      "fecha": "",
+      "nota": "Los pasos están en orden de prioridad.",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p11t1",
+          "texto": "Desagüe de la cocina",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p11t2",
+          "texto": "Termotanque",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p11t3",
+          "texto": "Persianas",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p11t4",
+          "texto": "Caño de la salamandra por fuera (antes del invierno)",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p11t5",
+          "texto": "Canaleta",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p12",
+      "titulo": "Proteger las tumbas",
+      "estado": "decidido",
+      "area": "mantenimiento",
+      "resp": [],
+      "fecha": "",
+      "nota": "",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p12t1",
+          "texto": "Elegir: algo de acero inoxidable o cajas de electricidad",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p12t2",
+          "texto": "Comprar los materiales",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p12t3",
+          "texto": "Colocarlas",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p13",
+      "titulo": "Inauguración del 47",
+      "estado": "decidido",
+      "area": "eventos",
+      "resp": [],
+      "fecha": "",
+      "nota": "Tiene que ser para fin de año.",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p13t1",
+          "texto": "Fijar fecha",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        },
+        {
+          "id": "r8p13t2",
+          "texto": "Organizar la inauguración",
+          "quien": "",
+          "hecho": false,
+          "adj": []
+        }
+      ]
+    },
+    {
+      "id": "r8p14",
+      "titulo": "Cena con Nico y Nicole",
+      "estado": "hecho",
+      "area": "eventos",
+      "resp": [
+        "Augusto"
+      ],
+      "fecha": "",
+      "nota": "",
+      "codigo": "",
+      "adj": [],
+      "tareas": [
+        {
+          "id": "r8p14t1",
+          "texto": "Confirmar el día (sería el domingo)",
+          "quien": "Augusto",
+          "hecho": true,
+          "adj": []
+        },
+        {
+          "id": "r8p14t2",
+          "texto": "Repartir entre todos qué lleva cada uno",
+          "quien": "",
+          "hecho": true,
+          "adj": []
+        }
+      ]
+    }
+  ]
+}

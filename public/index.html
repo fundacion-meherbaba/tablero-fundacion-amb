@@ -1,0 +1,862 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tablero de la Fundación</title>
+<meta name="description" content="Proyectos y tareas de la Fundación para las Artes.">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1416" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="logo-marca.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Sistema de diseño de la Fundación para las Artes (tokens.json, versión 2).
+   Una sola columna pensada para el celular: arriba el filtro, abajo los proyectos por estado o por tipo. */
+:root {
+  color-scheme: light;
+  --fondo: #FFFFFF; --celeste: #EBF7F9; --superficie: #FFFFFF;
+  --tinta: #292929; --tinta-suave: #4C4C4C; --tinta-tenue: #6E6E6E;
+  --turquesa: #14B2C8; --turquesa-texto: #088183; --sobre-turquesa: #FFFFFF;
+  --linea: #ADE4EC; --borde: #6B9BA2;
+  --naranja: #FF7000; --naranja-texto: #B84E00; --critico: #B3261E;
+  --noche: #0A0F10; --noche-texto: #FFFFFF; --noche-suave: #A9B4B6;
+  --serif: Lora, Georgia, serif;
+  --sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --esp-1: 4px; --esp-2: 8px; --esp-3: 12px; --esp-4: 16px; --esp-5: 24px; --esp-6: 32px; --esp-7: 48px; --esp-8: 64px;
+  --radio-control: 5px; --radio-tarjeta: 10px; --radio-pildora: 999px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --fondo: #0B1416; --celeste: #122227; --superficie: #16272C;
+    --tinta: #F2F5F5; --tinta-suave: #B4C0C2; --tinta-tenue: #8FA0A3;
+    --turquesa: #2CC4D8; --turquesa-texto: #5FD3E2; --sobre-turquesa: #0B1416;
+    --linea: #1F4A52; --borde: #5E8A91;
+    --naranja: #FF9A4D; --naranja-texto: #FF9A4D; --critico: #FF8F85;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--fondo); color: var(--tinta); font: 400 16px/24px var(--sans);
+  padding: max(var(--esp-5), env(safe-area-inset-top, 0px)) max(var(--esp-5), env(safe-area-inset-right, 0px)) calc(var(--esp-8) + env(safe-area-inset-bottom, 0px)) max(var(--esp-5), env(safe-area-inset-left, 0px)); }
+#app { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: var(--esp-6); }
+h1, h2, h3, p, ul { margin: 0; }
+ul { padding: 0; list-style: none; }
+button, input, select, textarea { font: inherit; color: inherit; }
+a { color: var(--turquesa-texto); }
+:focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
+[hidden] { display: none !important; }
+
+/* Encabezado */
+.cab { display: flex; flex-direction: column; gap: var(--esp-4); }
+.marca { display: flex; align-items: center; justify-content: space-between; gap: var(--esp-4); flex-wrap: wrap; }
+.logo { height: 56px; width: auto; display: block; }
+.logo-texto { display: none; }
+@media (prefers-color-scheme: dark) { .logo { display: none; } .logo-texto { display: block; } }
+.rotulo { font: 600 12px/16px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--turquesa-texto); }
+h1 { font: 400 36px/42px var(--serif); letter-spacing: -.015em; text-wrap: balance; }
+.bajada { font: 400 16px/24px var(--sans); color: var(--tinta-suave); }
+.nota { font: 400 15px/21px var(--sans); color: var(--tinta-tenue); }
+@media (min-width: 834px) { h1 { font-size: 44px; line-height: 48px; } }
+
+/* Botones (Boton) */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--esp-2); min-height: 48px; padding: var(--esp-3) var(--esp-5);
+  border: 1.2px solid var(--turquesa); border-radius: var(--radio-control); background: transparent; color: var(--turquesa-texto);
+  font: 500 16px/24px var(--sans); text-decoration: none; cursor: pointer; transition: background-color .2s ease, color .2s ease, border-color .2s ease; }
+.btn:hover { background: var(--celeste); }
+.btn.pri { background: var(--turquesa-texto); border-color: var(--turquesa-texto); color: var(--sobre-turquesa); }
+.btn.pri:hover { background: var(--tinta); border-color: var(--tinta); color: var(--fondo); }
+.btn.peligro { border-color: var(--critico); color: var(--critico); }
+.btn:disabled { opacity: .55; cursor: default; }
+.fila { display: flex; flex-wrap: wrap; gap: var(--esp-3); align-items: center; }
+.enlace-btn { background: none; border: 0; padding: var(--esp-3) 0; min-height: 48px; color: var(--turquesa-texto); font: 500 16px/24px var(--sans); cursor: pointer;
+  text-decoration: underline; text-decoration-color: var(--turquesa); text-underline-offset: 4px; }
+.enlace-btn:hover { color: var(--tinta); }
+
+/* Barra de vista y filtro */
+.controles { display: flex; flex-wrap: wrap; gap: var(--esp-3); align-items: center; justify-content: space-between; }
+.seg { display: inline-flex; border: 1px solid var(--borde); border-radius: var(--radio-control); overflow: hidden; }
+.seg button { min-height: 46px; padding: 0 var(--esp-4); border: 0; background: var(--superficie); color: var(--tinta-suave); font: 500 15px/20px var(--sans); cursor: pointer; transition: background-color .2s ease, color .2s ease; }
+.seg button + button { border-left: 1px solid var(--borde); }
+.seg button[aria-pressed="true"] { background: var(--turquesa-texto); color: var(--sobre-turquesa); }
+.ver { min-height: 48px; padding: 0 var(--esp-4); border: 1px solid var(--borde); border-radius: var(--radio-control); background: var(--superficie); color: var(--tinta-suave);
+  font: 400 15px/20px var(--sans); cursor: pointer; max-width: 100%; overflow-wrap: anywhere; text-align: left; }
+.ver b { color: var(--tinta); font-weight: 600; }
+.ver::after { content: "  ▾"; color: var(--turquesa-texto); }
+.ver[aria-expanded="true"]::after { content: "  ▴"; }
+.quien { display: flex; flex-direction: column; gap: var(--esp-3); }
+.chips { display: flex; flex-wrap: wrap; gap: var(--esp-2); }
+.chip { min-height: 44px; padding: 0 var(--esp-4); border: 1px solid var(--borde); border-radius: var(--radio-pildora); background: var(--superficie); color: var(--tinta);
+  font: 500 15px/20px var(--sans); cursor: pointer; transition: background-color .2s ease; }
+.chip:hover { background: var(--celeste); }
+.chip[aria-pressed="true"] { background: var(--turquesa-texto); border-color: var(--turquesa-texto); color: var(--sobre-turquesa); }
+
+/* Edición */
+.edicion { display: flex; flex-direction: column; gap: var(--esp-3); padding-top: var(--esp-4); border-top: 1px solid var(--linea); }
+.guardado { font: 400 15px/21px var(--sans); color: var(--tinta-tenue); }
+.guardado.error { color: var(--critico); }
+
+/* Grupos y proyectos (Proyecto) */
+main { display: flex; flex-direction: column; gap: var(--esp-7); }
+.grupo { display: flex; flex-direction: column; gap: var(--esp-4); }
+.grupo > h2, .grupo > summary { font: 400 30px/36px var(--serif); letter-spacing: -.01em; display: flex; align-items: baseline; gap: var(--esp-3); }
+.grupo > summary { cursor: pointer; min-height: 48px; list-style: none; }
+.grupo > summary::-webkit-details-marker { display: none; }
+.grupo > summary::after { content: "Ver"; margin-left: auto; font: 500 15px/20px var(--sans); color: var(--turquesa-texto); }
+.grupo[open] > summary::after { content: "Ocultar"; }
+details.grupo > * + * { margin-top: var(--esp-4); }
+.n { font: 400 15px/21px var(--sans); color: var(--tinta-tenue); font-variant-numeric: tabular-nums; }
+.lista { display: flex; flex-direction: column; gap: var(--esp-4); }
+
+.proy { display: flex; flex-direction: column; gap: var(--esp-3); padding: var(--esp-5); background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio-tarjeta); min-width: 0; }
+.proy-top { display: flex; flex-wrap: wrap; gap: var(--esp-2) var(--esp-4); align-items: center; justify-content: space-between; }
+.proy h3 { font: 700 22px/28px var(--serif); overflow-wrap: anywhere; }
+.resp { color: var(--tinta-suave); }
+.resp b { color: var(--tinta); font-weight: 500; }
+.dato { color: var(--tinta-suave); overflow-wrap: anywhere; }
+.dato b { color: var(--tinta); font-weight: 600; }
+
+.estado { display: inline-flex; align-items: center; gap: var(--esp-2); font: 600 12px/16px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-suave); flex: none; }
+.estado::before { content: ""; width: 8px; height: 8px; border-radius: var(--radio-pildora); background: var(--tinta-suave); flex: none; }
+.estado.marcha { color: var(--turquesa-texto); } .estado.marcha::before { background: var(--turquesa); }
+.estado.trabado { color: var(--naranja-texto); } .estado.trabado::before { background: var(--naranja); border-radius: 0; }
+.estado.vencido { color: var(--critico); } .estado.vencido::before { background: var(--critico); border-radius: 0; transform: rotate(45deg); }
+.estado.ideas::before { background: transparent; border: 1.5px solid var(--tinta-suave); }
+.estado.hecho { color: var(--tinta-tenue); } .estado.hecho::before { background: var(--tinta-tenue); }
+.estado.fecha::before { display: none; }
+
+.codigo { display: inline-flex; align-items: center; gap: var(--esp-2); min-height: 36px; padding: 0 var(--esp-3); border: 1px solid var(--linea); border-radius: var(--radio-pildora);
+  background: transparent; color: var(--turquesa-texto); font: 500 15px/20px var(--sans); cursor: pointer; font-variant-numeric: tabular-nums; transition: background-color .2s ease; }
+.codigo:hover { background: var(--celeste); }
+.codigo span { color: var(--tinta-tenue); font-weight: 400; }
+
+.barra { height: 4px; border-radius: var(--radio-pildora); background: var(--celeste); overflow: hidden; flex: 0 0 72px; }
+.barra i { display: block; height: 100%; background: var(--turquesa-texto); }
+.pasos > summary { display: flex; align-items: center; gap: var(--esp-3); min-height: 48px; cursor: pointer; list-style: none; color: var(--tinta-suave); font-variant-numeric: tabular-nums; }
+.pasos > summary::-webkit-details-marker { display: none; }
+.pasos > summary::after { content: "Ver pasos"; margin-left: auto; font-weight: 500; color: var(--turquesa-texto); }
+.pasos[open] > summary::after { content: "Ocultar"; }
+.paso { display: flex; gap: var(--esp-3); align-items: flex-start; padding: var(--esp-3) 0; border-top: 1px solid var(--linea); min-width: 0; }
+.paso input { width: 22px; height: 22px; margin: 1px 0 0; flex: none; accent-color: var(--turquesa-texto); }
+.caja { width: 20px; height: 20px; border: 1.5px solid var(--borde); border-radius: 4px; flex: none; margin-top: 2px; display: grid; place-items: center; font: 600 13px/1 var(--sans); }
+.hecho .caja { background: var(--turquesa-texto); border-color: var(--turquesa-texto); color: var(--sobre-turquesa); }
+.cuerpo { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--esp-2); }
+.tx { overflow-wrap: anywhere; }
+.hecho .tx { color: var(--tinta-tenue); text-decoration: line-through; }
+.q { flex: none; font: 500 14px/20px var(--sans); color: var(--tinta-suave); max-width: 40%; overflow-wrap: anywhere; text-align: right; }
+.mio .q { color: var(--turquesa-texto); font-weight: 600; }
+
+.adj { display: flex; flex-wrap: wrap; gap: var(--esp-2); align-items: center; }
+.mini { width: 72px; height: 72px; border-radius: var(--radio-tarjeta); overflow: hidden; border: 1px solid var(--linea); display: block; background: var(--celeste); }
+.mini img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.link { font: 500 15px/21px var(--sans); color: var(--turquesa-texto); text-decoration: underline; text-decoration-color: var(--turquesa); text-underline-offset: 4px; overflow-wrap: anywhere; padding: var(--esp-1) 0; }
+.link:hover { color: var(--tinta); }
+
+/* Ideas */
+.ideas { background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio-tarjeta); }
+.idea { padding: var(--esp-4) var(--esp-5); display: flex; flex-direction: column; gap: var(--esp-2); border-top: 1px solid var(--linea); min-width: 0; }
+.idea:first-child { border-top: 0; }
+.idea strong { font: 700 18px/26px var(--serif); overflow-wrap: anywhere; }
+.anotar { display: grid; grid-template-columns: 1fr auto; gap: var(--esp-2); }
+
+/* Lista por tipo */
+.tabla { background: var(--superficie); border: 1px solid var(--linea); border-radius: var(--radio-tarjeta); }
+.fl { display: flex; flex-wrap: wrap; gap: var(--esp-1) var(--esp-4); align-items: center; padding: var(--esp-3) var(--esp-4); border-top: 1px solid var(--linea); min-width: 0; }
+.tabla > .fl:first-child { border-top: 0; }
+.fl .t { flex: 1 1 160px; min-width: 0; overflow-wrap: anywhere; }
+.fl.p .t { font: 700 17px/24px var(--serif); }
+.fl.t2 { padding-left: var(--esp-6); flex-wrap: nowrap; align-items: flex-start; gap: var(--esp-3); }
+.fl.t2 .t { flex: 1 1 0; }
+.fl.t2.hecho .t { color: var(--tinta-tenue); text-decoration: line-through; }
+.fl input[type="checkbox"] { width: 22px; height: 22px; margin: 1px 0 0; flex: none; accent-color: var(--turquesa-texto); }
+.quienes { font: 400 14px/20px var(--sans); color: var(--tinta-tenue); }
+
+/* Campos (Campo) */
+.campo { display: flex; flex-direction: column; gap: var(--esp-2); font: 500 15px/21px var(--sans); color: var(--tinta-suave); min-width: 0; }
+input.in, select.in, textarea.in { min-height: 48px; padding: var(--esp-2) var(--esp-4); border: 1px solid var(--borde); border-radius: var(--radio-control); background: var(--superficie); color: var(--tinta);
+  font: 400 16px/24px var(--sans); width: 100%; min-width: 0; }
+.ayuda { font: 400 15px/21px var(--sans); color: var(--tinta-tenue); }
+.error-campo { font: 400 15px/21px var(--sans); color: var(--critico); }
+
+.vacio { padding: var(--esp-6) var(--esp-5); border: 1px dashed var(--borde); border-radius: var(--radio-tarjeta); color: var(--tinta-suave); text-align: center; }
+.wa { background: var(--celeste); border-radius: var(--radio-tarjeta); padding: var(--esp-5); display: flex; flex-direction: column; gap: var(--esp-3); }
+.wa h2 { font: 700 22px/28px var(--serif); }
+.wa p { color: var(--tinta-suave); }
+.wa textarea { min-height: 160px; }
+.pie { display: flex; flex-direction: column; gap: var(--esp-2); padding-top: var(--esp-5); border-top: 1px solid var(--linea); }
+
+.aviso { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(var(--esp-5) + env(safe-area-inset-bottom, 0px)); z-index: 30;
+  width: max-content; max-width: calc(100% - 32px); padding: var(--esp-3) var(--esp-5); border-radius: var(--radio-control); background: var(--noche); color: var(--noche-texto); font: 500 15px/21px var(--sans); text-align: center; }
+
+/* Diálogos */
+dialog { width: min(600px, calc(100% - 24px)); max-height: calc(100% - 24px); border: 1px solid var(--linea); border-radius: var(--radio-tarjeta); background: var(--superficie); color: var(--tinta); padding: var(--esp-5); }
+dialog::backdrop { background: rgba(10, 15, 16, .5); }
+dialog form { display: flex; flex-direction: column; gap: var(--esp-5); }
+dialog h2 { font: 400 30px/36px var(--serif); }
+.dos { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--esp-4); }
+.grupo-campos { display: flex; flex-direction: column; gap: var(--esp-2); }
+.par { display: grid; grid-template-columns: 1fr 48px; gap: var(--esp-2); }
+.par .x { padding: 0; }
+.paso-ed { display: grid; grid-template-columns: 1fr 48px; gap: var(--esp-2); padding-bottom: var(--esp-3); border-bottom: 1px solid var(--linea); }
+.paso-ed .x { grid-row: span 2; padding: 0; }
+.renglon { display: flex; align-items: center; justify-content: space-between; gap: var(--esp-3); padding: var(--esp-2) 0; border-bottom: 1px solid var(--linea); color: var(--tinta); font: 400 16px/24px var(--sans); min-width: 0; }
+.renglon > span { min-width: 0; overflow-wrap: anywhere; }
+.checks { display: flex; flex-wrap: wrap; gap: var(--esp-2); }
+.chk { display: inline-flex; align-items: center; gap: var(--esp-2); min-height: 44px; padding: 0 var(--esp-4); border: 1px solid var(--borde); border-radius: var(--radio-pildora); color: var(--tinta); font: 400 15px/20px var(--sans); cursor: pointer; }
+.chk input { width: 20px; height: 20px; margin: 0; accent-color: var(--turquesa-texto); }
+.subir { position: relative; overflow: hidden; align-self: flex-start; }
+.subir input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.acciones { display: flex; flex-wrap: wrap; gap: var(--esp-3); justify-content: flex-end; }
+.acciones .izq { margin-right: auto; }
+
+.cargando { padding: var(--esp-8) 0; color: var(--tinta-suave); text-align: center; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div id="app"><p class="cargando">Cargando el tablero…</p></div>
+<noscript><p>El tablero necesita JavaScript para funcionar.</p></noscript>
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Constantes ---------- */
+  var ESTADOS = [
+    { id: "marcha", nombre: "En marcha", corto: "En marcha", wa: "🚀 *En marcha*" },
+    { id: "trabado", nombre: "Trabado o esperando", corto: "En espera", wa: "⏸️ *Trabado o esperando*" },
+    { id: "decidido", nombre: "Decidido, por arrancar", corto: "Por arrancar", wa: "📌 *Decidido, por arrancar*" },
+    { id: "ideas", nombre: "Idea guardada", corto: "Idea", wa: "💡 *Ideas*" },
+    { id: "hecho", nombre: "Hecho", corto: "Hecho", wa: "✅ *Hecho*" }
+  ];
+  var AREAS_BASE = [
+    { id: "musica", nombre: "Música" }, { id: "visuales", nombre: "Artes visuales" }, { id: "eventos", nombre: "Eventos" },
+    { id: "fondos", nombre: "Fondos" }, { id: "publicaciones", nombre: "Publicaciones" }, { id: "web", nombre: "Web y difusión" }
+  ];
+  var VACIAS = { el: 1, la: 1, los: 1, las: 1, de: 1, del: 1, y: 1, e: 1, a: 1, al: 1, en: 1, para: 1, con: 1, por: 1, un: 1, una: 1, o: 1, que: 1, su: 1, sus: 1 };
+  var CLAVE_LOCAL = "tablero-clave", CLAVE_YO = "tablero-quien", CLAVE_VISTA = "tablero-vista";
+
+  /* ---------- Estado ---------- */
+  var app = document.getElementById("app");
+  var datos = null, version = 0, sinConexion = false;
+  var clave = leerLocal(CLAVE_LOCAL), editando = false;
+  var pendientes = [], guardando = false, temporizador = 0, conflictos = 0, estadoGuardado = "", errorGuardado = false;
+  var yo = leerLocal(CLAVE_YO), vista = leerLocal(CLAVE_VISTA) === "lista" ? "lista" : "tablero", quienAbierto = false;
+  var abiertos = { "g-ideas": true }, aviso = "", avisoT = 0, textoWa = "", edit = null;
+
+  function leerLocal(k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } }
+  function escribirLocal(k, v) { try { if (v) localStorage.setItem(k, v); else localStorage.removeItem(k); } catch (e) {} }
+
+  /* ---------- Utilidades ---------- */
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function copia(o) { return JSON.parse(JSON.stringify(o)); }
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+  function hoy() { var d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  function fechaLinda(iso, largo) {
+    var p = String(iso).split("-"); var d = new Date(+p[0], +p[1] - 1, +p[2]);
+    if (isNaN(d)) return iso;
+    try { return d.toLocaleDateString("es-AR", largo ? { day: "numeric", month: "long", year: "numeric" } : { weekday: "short", day: "numeric", month: "short" }); } catch (e) { return iso; }
+  }
+  function nombres(l) { return l.length < 2 ? l.join("") : l.slice(0, -1).join(", ") + " y " + l[l.length - 1]; }
+  function urlSegura(u) { return /^https?:\/\//i.test(u || "") ? u : ""; }
+  function idImagen(id) { return /^[a-f0-9]{32}$/.test(id || "") ? id : ""; }
+  function porId(l, id) { for (var i = 0; i < l.length; i++) if (l[i].id === id) return l[i]; return null; }
+  function area(id) { return datos ? porId(datos.areas, id) : null; }
+  function esMio(p) { return p.resp.indexOf(yo) >= 0 || p.tareas.some(function (t) { return t.quien === yo; }); }
+  function hechas(p) { return p.tareas.filter(function (t) { return t.hecho; }).length; }
+  function deEstado(id) {
+    return datos.proyectos.filter(function (p) { return p.estado === id; }).sort(function (a, b) {
+      if (a.fecha && b.fecha) return a.fecha < b.fecha ? -1 : a.fecha > b.fecha ? 1 : 0;
+      return a.fecha ? -1 : b.fecha ? 1 : 0;
+    });
+  }
+  /* Lo que se ve con el filtro puesto. El resumen de WhatsApp usa exactamente esto. */
+  function visibles(id) { var ps = deEstado(id); return yo && id !== "ideas" ? ps.filter(esMio) : ps; }
+  function avisar(t) { aviso = t; clearTimeout(avisoT); avisoT = setTimeout(function () { aviso = ""; render(); }, 5000); render(); }
+  function enlaceTablero() { return datos.enlace || (location.origin + "/"); }
+
+  /* Código corto para WhatsApp: iniciales de las palabras importantes y el primer número. */
+  function generarCodigo(titulo, usados) {
+    var palabras = String(titulo).normalize("NFD").replace(/[̀-ͯ]/g, "").split(/[^A-Za-z0-9]+/).filter(Boolean);
+    var letras = "", num = "";
+    palabras.forEach(function (w) {
+      if (/^\d+$/.test(w)) { if (!num) num = w.slice(0, 4); }
+      else if (!VACIAS[w.toLowerCase()] && letras.length < 3) letras += w[0].toUpperCase();
+    });
+    var base = "#" + (letras || "P") + num, c = base, n = 2;
+    while (usados.indexOf(c) >= 0) c = base + "-" + n++;
+    return c;
+  }
+  function limpiarCodigo(c) {
+    c = String(c || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toUpperCase().replace(/[^A-Z0-9-]/g, "").slice(0, 12);
+    return c ? "#" + c : "";
+  }
+
+  /* Ordena y completa datos viejos o incompletos. */
+  function normalizar(d) {
+    d.nombre = d.nombre || "Fundación para las Artes";
+    d.personas = Array.isArray(d.personas) ? d.personas : [];
+    d.areas = Array.isArray(d.areas) && d.areas.length ? d.areas.map(function (a) { return { id: a.id, nombre: a.nombre }; }) : copia(AREAS_BASE);
+    d.proyectos = Array.isArray(d.proyectos) ? d.proyectos : [];
+    var usados = [];
+    d.proyectos.forEach(function (p) {
+      p.resp = Array.isArray(p.resp) ? p.resp : (p.resp ? [p.resp] : []);
+      p.tareas = Array.isArray(p.tareas) ? p.tareas : [];
+      p.nota = p.nota || ""; p.fecha = p.fecha || ""; p.area = p.area || "";
+      p.adj = limpiarAdjuntos(p.adj);
+      p.tareas.forEach(function (t) { t.adj = limpiarAdjuntos(t.adj); t.quien = t.quien || ""; t.hecho = !!t.hecho; });
+      if (!p.codigo || usados.indexOf(p.codigo) >= 0) p.codigo = generarCodigo(p.titulo, usados);
+      usados.push(p.codigo);
+    });
+    return d;
+  }
+  function limpiarAdjuntos(l) {
+    return (Array.isArray(l) ? l : []).filter(function (a) { return (a.tipo === "img" && idImagen(a.img)) || (a.tipo === "link" && urlSegura(a.url)); });
+  }
+
+  /* ---------- Servidor ---------- */
+  function pedir(metodo, ruta, cuerpo, tipo) {
+    var cab = {};
+    if (clave) cab["x-clave"] = clave;
+    if (cuerpo !== undefined) cab["content-type"] = tipo || "application/json";
+    return fetch(ruta, { method: metodo, headers: cab, body: cuerpo === undefined ? undefined : (tipo ? cuerpo : JSON.stringify(cuerpo)), cache: "no-store" })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { j._estado = r.status; return j; }); });
+  }
+
+  function cargar() {
+    return pedir("GET", "/api/datos").then(function (r) {
+      if (r._estado !== 200) throw new Error("estado " + r._estado);
+      sinConexion = false;
+      if (r.datos) { datos = normalizar(r.datos); version = r.version; return; }
+      return fetch("datos-iniciales.json", { cache: "no-store" }).then(function (x) { return x.json(); }).then(function (d) { datos = normalizar(d); version = 0; });
+    }).catch(function () {
+      if (datos) { sinConexion = true; return; }
+      return fetch("datos-iniciales.json", { cache: "no-store" }).then(function (x) { return x.json(); }).then(function (d) {
+        datos = normalizar(d); version = 0; sinConexion = true;
+      });
+    });
+  }
+
+  /* Cada cambio es una función que se aplica a los datos. Si alguien guardó antes,
+     se traen sus datos y se vuelven a aplicar los cambios propios encima. */
+  function cambiar(fn) {
+    if (!editando) return;
+    fn(datos); normalizar(datos);
+    pendientes.push(fn);
+    estadoGuardado = "Guardando…"; errorGuardado = false;
+    render();
+    clearTimeout(temporizador); temporizador = setTimeout(guardar, 700);
+  }
+  function guardar() {
+    if (guardando || !pendientes.length) return;
+    guardando = true;
+    var enviados = pendientes.length, foto = copia(datos);
+    foto.actualizado = hoy();
+    pedir("PUT", "/api/datos", { datos: foto, base: version }).then(function (r) {
+      guardando = false;
+      if (r._estado === 200) {
+        version = r.version; datos.actualizado = foto.actualizado; conflictos = 0;
+        pendientes.splice(0, enviados);
+        estadoGuardado = pendientes.length ? "Guardando…" : "Guardado"; errorGuardado = false;
+        render();
+        if (pendientes.length) guardar();
+      } else if (r._estado === 409 && r.datos && conflictos < 5) {
+        conflictos++;
+        var base = normalizar(r.datos);
+        pendientes.forEach(function (fn) { fn(base); normalizar(base); });
+        datos = base; version = r.version;
+        render(); guardar();
+      } else if (r._estado === 401) {
+        clave = ""; escribirLocal(CLAVE_LOCAL, "");
+        estadoGuardado = "Sin guardar: la clave cambió."; errorGuardado = true;
+        render(); pedirClave("La clave del grupo cambió. Ingresá la nueva para guardar lo que hiciste.");
+      } else if (r._estado === 413) {
+        estadoGuardado = "No se pudo guardar: el tablero es demasiado grande. Borrá proyectos viejos de «Hecho»."; errorGuardado = true; render();
+      } else { throw new Error("estado " + r._estado); }
+    }).catch(function () {
+      guardando = false;
+      estadoGuardado = "Sin conexión. Se vuelve a intentar en unos segundos."; errorGuardado = true;
+      render(); clearTimeout(temporizador); temporizador = setTimeout(guardar, 6000);
+    });
+  }
+  window.addEventListener("beforeunload", function (e) { if (pendientes.length) { e.preventDefault(); e.returnValue = ""; } });
+
+  /* Trae los cambios de otras personas cada medio minuto. */
+  function refrescar() {
+    if (document.hidden || pendientes.length || guardando || dlg.open || !datos) return;
+    pedir("GET", "/api/datos").then(function (r) {
+      if (r._estado !== 200 || pendientes.length || guardando || dlg.open) return;
+      if (sinConexion) { sinConexion = false; render(); }
+      if (r.datos && r.version > version) { datos = normalizar(r.datos); version = r.version; render(); }
+    }).catch(function () {});
+  }
+  setInterval(refrescar, 30000);
+  document.addEventListener("visibilitychange", refrescar);
+
+  /* ---------- Vista ---------- */
+  function estadoHtml(id) { var e = porId(ESTADOS, id); return '<span class="estado ' + id + '">' + esc(e ? e.corto : id) + "</span>"; }
+  function adjuntos(l) {
+    if (!l.length) return "";
+    return '<div class="adj">' + l.map(function (a) {
+      var n = esc(a.nombre);
+      if (a.tipo === "img") { var src = "/api/imagen/" + idImagen(a.img); return '<a class="mini" href="' + src + '" target="_blank" rel="noopener" title="' + n + '"><img src="' + src + '" alt="' + n + '" loading="lazy"></a>'; }
+      return '<a class="link" href="' + esc(urlSegura(a.url)) + '" target="_blank" rel="noopener noreferrer">' + n + "</a>";
+    }).join("") + "</div>";
+  }
+  function botonCodigo(p) {
+    return '<button class="codigo" data-act="codigo" data-v="' + esc(p.codigo) + '" data-k="c' + p.id + '" aria-label="Copiar el código ' + esc(p.codigo) + ' para WhatsApp">' + esc(p.codigo) + " <span>Copiar</span></button>";
+  }
+  function tarjeta(p) {
+    var a = area(p.area), h = "", total = p.tareas.length, ok = hechas(p);
+    h += '<article class="proy">';
+    if (a) h += '<p class="rotulo">' + esc(a.nombre) + "</p>";
+    h += "<h3>" + esc(p.titulo) + "</h3>";
+    h += '<div class="proy-top"><div class="fila" style="gap:var(--esp-2) var(--esp-4)">' + estadoHtml(p.estado);
+    if (p.fecha) {
+      var venc = p.estado !== "hecho" && p.estado !== "ideas" && p.fecha < hoy();
+      h += venc ? '<span class="estado vencido">Venció el ' + esc(fechaLinda(p.fecha)) + "</span>" : '<span class="estado fecha">' + esc(fechaLinda(p.fecha)) + "</span>";
+    }
+    h += "</div>" + botonCodigo(p) + "</div>";
+    h += p.resp.length ? '<p class="resp">A cargo de <b>' + esc(nombres(p.resp)) + "</b></p>" : '<p class="resp">Todavía sin responsable</p>';
+    if (p.nota) h += '<p class="dato"><b>' + (p.estado === "trabado" ? "Necesita:" : "Nota:") + "</b> " + esc(p.nota) + "</p>";
+    h += adjuntos(p.adj);
+    if (total) {
+      h += '<details class="pasos" data-id="' + p.id + '"' + (abiertos[p.id] ? " open" : "") + '><summary><span class="barra"><i style="width:' + Math.round(ok / total * 100) + '%"></i></span>' + ok + " de " + total + (total === 1 ? " paso hecho" : " pasos hechos") + "</summary><ul>";
+      p.tareas.forEach(function (t) {
+        h += '<li class="paso' + (t.hecho ? " hecho" : "") + (yo && t.quien === yo ? " mio" : "") + '">';
+        if (editando) h += '<input type="checkbox" data-act="tildar" data-p="' + p.id + '" data-t="' + t.id + '" data-k="t' + t.id + '" aria-label="Hecho: ' + esc(t.texto) + '"' + (t.hecho ? " checked" : "") + ">";
+        else h += '<span class="caja" aria-hidden="true">' + (t.hecho ? "✓" : "") + "</span>";
+        h += '<div class="cuerpo"><span class="tx">' + esc(t.texto) + (t.hecho && !editando ? ' <span class="nota">(hecho)</span>' : "") + "</span>" + adjuntos(t.adj) + "</div>";
+        h += (t.quien ? '<span class="q">' + esc(t.quien) + "</span>" : "") + "</li>";
+      });
+      h += "</ul></details>";
+    }
+    if (editando) h += '<div class="fila"><button class="btn" data-act="editar" data-id="' + p.id + '" data-k="e' + p.id + '">Cambiar</button></div>';
+    return h + "</article>";
+  }
+  function idea(p) {
+    var h = '<li class="idea"><strong>' + esc(p.titulo) + "</strong>";
+    if (p.nota) h += '<p class="dato">' + esc(p.nota) + "</p>";
+    if (p.resp.length) h += '<p class="nota">Propuesta de ' + esc(nombres(p.resp)) + "</p>";
+    h += adjuntos(p.adj);
+    if (editando) h += '<div class="fila"><button class="btn" data-act="promover" data-id="' + p.id + '" data-k="pr' + p.id + '">Pasar a proyecto</button><button class="enlace-btn" data-act="editar" data-id="' + p.id + '" data-k="e' + p.id + '">Cambiar</button></div>';
+    return h + "</li>";
+  }
+  function listaPorTipo() {
+    var h = "", total = 0, orden = ESTADOS.map(function (e) { return e.id; });
+    datos.areas.concat([{ id: "", nombre: "Sin tipo" }]).forEach(function (a) {
+      var ps = datos.proyectos.filter(function (p) { return (area(p.area) ? p.area : "") === a.id && (!yo || esMio(p)); })
+        .sort(function (x, y) { return orden.indexOf(x.estado) - orden.indexOf(y.estado); });
+      if (!ps.length) return; total += ps.length;
+      h += '<section class="grupo"><h2>' + esc(a.nombre) + ' <span class="n">' + ps.length + '</span></h2><ul class="tabla">';
+      ps.forEach(function (p) {
+        h += '<li class="fl p"><span class="t">' + esc(p.titulo) + "</span>" + estadoHtml(p.estado);
+        if (p.resp.length) h += '<span class="quienes">' + esc(nombres(p.resp)) + "</span>";
+        if (editando) h += '<button class="enlace-btn" data-act="editar" data-id="' + p.id + '" data-k="e' + p.id + '">Cambiar</button>';
+        h += "</li>";
+        p.tareas.forEach(function (t) {
+          h += '<li class="fl t2' + (t.hecho ? " hecho" : "") + '">';
+          if (editando) h += '<input type="checkbox" data-act="tildar" data-p="' + p.id + '" data-t="' + t.id + '" data-k="t' + t.id + '" aria-label="Hecho: ' + esc(t.texto) + '"' + (t.hecho ? " checked" : "") + ">";
+          else h += '<span class="caja" aria-hidden="true">' + (t.hecho ? "✓" : "") + "</span>";
+          h += '<span class="t">' + esc(t.texto) + (t.hecho && !editando ? ' <span class="nota">(hecho)</span>' : "") + "</span>" + (t.quien ? '<span class="quienes">' + esc(t.quien) + "</span>" : "") + "</li>";
+        });
+      });
+      h += "</ul></section>";
+    });
+    if (!total) h += '<p class="vacio">' + (yo ? "No hay nada a nombre de " + esc(yo) + " por ahora. Elegí «Todos» para ver el tablero completo." : "Todavía no hay proyectos cargados.") + "</p>";
+    return h;
+  }
+  function tablero() {
+    var h = "", hay = 0;
+    ESTADOS.forEach(function (e) {
+      if (e.id === "ideas") return;
+      var ps = visibles(e.id);
+      if (!ps.length) return; hay += ps.length;
+      var cards = '<div class="lista">' + ps.map(tarjeta).join("") + "</div>";
+      if (e.id === "hecho") h += '<details class="grupo" data-id="g-hecho"' + (abiertos["g-hecho"] ? " open" : "") + "><summary>Hecho <span class=\"n\">" + ps.length + "</span></summary>" + cards + "</details>";
+      else h += '<section class="grupo"><h2>' + e.nombre + ' <span class="n">' + ps.length + "</span></h2>" + cards + "</section>";
+    });
+    if (!hay) h += '<p class="vacio">' + (yo ? "No hay nada a nombre de " + esc(yo) + " por ahora. Elegí «Todos» para ver el tablero completo." : "Todavía no hay proyectos cargados. Cuando surja algo en el grupo, se anota acá.") + "</p>";
+    var ideas = visibles("ideas");
+    if (ideas.length || editando) {
+      h += '<details class="grupo" data-id="g-ideas"' + (abiertos["g-ideas"] ? " open" : "") + "><summary>Ideas guardadas <span class=\"n\">" + ideas.length + "</span></summary>";
+      h += '<p class="bajada">Propuestas para charlar más adelante. Cuando el grupo decide hacer una, pasa a ser proyecto.</p>';
+      if (editando) h += '<form class="anotar" id="f-idea"><input class="in" id="idea-nueva" data-k="idea-nueva" maxlength="120" aria-label="Idea nueva" placeholder="Anotar una idea"><button class="btn">Anotar</button></form>';
+      if (ideas.length) h += '<ul class="ideas">' + ideas.map(idea).join("") + "</ul>";
+      h += "</details>";
+    }
+    return h;
+  }
+
+  function render() {
+    if (!datos) return;
+    var h = "", foco = document.activeElement && document.activeElement.dataset ? document.activeElement.dataset.k : "";
+    var cuenta = function (id) { return datos.proyectos.filter(function (p) { return p.estado === id; }).length; };
+
+    h += '<header class="cab"><div class="marca"><img class="logo" src="logo-completo.svg" alt="Fundación para las Artes, Amigos del Amigo A.M.B." width="101" height="56">';
+    h += '<p class="rotulo logo-texto">Fundación para las Artes</p>';
+    if (!editando) h += '<button class="btn" data-act="entrar" data-k="entrar"' + (sinConexion ? " disabled" : "") + ">Editar</button>";
+    h += "</div><h1>Proyectos y tareas</h1>";
+    h += '<p class="bajada">' + cuenta("marcha") + " en marcha · " + cuenta("trabado") + " en espera · " + cuenta("ideas") + (cuenta("ideas") === 1 ? " idea" : " ideas") + "</p>";
+    h += '<p class="nota">' + (sinConexion ? "Sin conexión con el servidor: estás viendo una copia. Los cambios no se pueden guardar." : datos.actualizado ? "Actualizado el " + esc(fechaLinda(datos.actualizado, true)) : "") + "</p></header>";
+
+    if (editando) {
+      h += '<section class="edicion" aria-label="Edición"><div class="fila"><button class="btn pri" data-act="nuevo" data-k="nuevo">Nuevo proyecto</button>';
+      h += '<button class="btn" data-act="ajustes" data-k="ajustes">Personas y tipos</button>';
+      h += '<button class="enlace-btn" data-act="salir" data-k="salir">Terminar de editar</button></div>';
+      h += '<p class="guardado' + (errorGuardado ? " error" : "") + '" role="status">' + esc(estadoGuardado || "Los cambios se guardan solos.") + "</p></section>";
+    }
+
+    h += '<div class="controles"><div class="seg" role="group" aria-label="Cómo ver el tablero">';
+    h += '<button data-act="vista" data-v="tablero" data-k="v-tablero" aria-pressed="' + (vista !== "lista") + '">Por estado</button>';
+    h += '<button data-act="vista" data-v="lista" data-k="v-lista" aria-pressed="' + (vista === "lista") + '">Por tipo</button></div>';
+    if (datos.personas.length) h += '<button class="ver" data-act="quien" data-k="quien" aria-expanded="' + quienAbierto + '">Viendo: <b>' + (yo ? esc(yo) : "Todos") + "</b></button>";
+    h += "</div>";
+    if (datos.personas.length && quienAbierto) {
+      h += '<nav class="quien" aria-label="Elegir persona"><p class="ayuda">Tocá un nombre para ver solo lo suyo.</p><div class="chips">';
+      h += '<button class="chip" data-act="yo" data-v="" data-k="yo-" aria-pressed="' + (!yo) + '">Todos</button>';
+      datos.personas.forEach(function (n) { h += '<button class="chip" data-act="yo" data-v="' + esc(n) + '" data-k="yo-' + esc(n) + '" aria-pressed="' + (yo === n) + '">' + esc(n) + "</button>"; });
+      h += "</div></nav>";
+    }
+
+    h += "<main>" + (vista === "lista" ? listaPorTipo() : tablero()) + "</main>";
+
+    h += '<section class="wa"><h2>' + (yo ? "Resumen de lo de " + esc(yo) : "Resumen para el grupo") + "</h2><p>" +
+      (yo ? "Arma el mensaje solo con lo que estás viendo. Para mandar todo, elegí «Todos» arriba." : "Arma el mensaje con lo que está en marcha, en espera y terminado, listo para mandar por WhatsApp.") + '</p><div class="fila">';
+    h += '<a class="btn pri" data-k="wa" target="_blank" rel="noopener" href="https://wa.me/?text=' + encodeURIComponent(resumen()) + '">Enviar por WhatsApp</a>';
+    h += '<button class="btn" data-act="copiar" data-k="copiar">Copiar el texto</button></div>';
+    if (textoWa) h += '<textarea class="in" id="texto-wa" readonly aria-label="Texto del resumen">' + esc(textoWa) + "</textarea>";
+    h += "</section>";
+
+    h += '<footer class="pie"><p class="nota">Cada proyecto tiene un código, por ejemplo ' + esc((datos.proyectos[0] || {}).codigo || "#U47") + '. Ponelo en el mensaje cuando mandes un archivo o comentes algo en el grupo de WhatsApp. Después buscalo en WhatsApp para ver toda la conversación junta.</p>';
+    h += '<p class="nota">¿Surgió algo nuevo o terminaste un paso? Avisá en el grupo y se anota acá.</p></footer>';
+    if (aviso) h += '<p class="aviso" role="status">' + esc(aviso) + "</p>";
+
+    app.innerHTML = h;
+    if (foco) {
+      var el = app.querySelector('[data-k="' + (window.CSS && CSS.escape ? CSS.escape(foco) : foco) + '"]') || (foco.indexOf("yo-") === 0 && app.querySelector('[data-k="quien"]'));
+      if (el) el.focus();
+    }
+  }
+
+  /* ---------- Resumen de WhatsApp ---------- */
+  function resumen() {
+    var l = ["📋 *" + (yo ? "Proyectos y tareas de " + yo : "Proyectos de la " + datos.nombre) + "*", ""], algo = false;
+    ["marcha", "trabado", "decidido"].forEach(function (id) {
+      var ps = visibles(id); if (!ps.length) return; algo = true;
+      l.push(porId(ESTADOS, id).wa);
+      ps.forEach(function (p) {
+        var s = "• " + p.titulo + " " + p.codigo + (p.resp.length ? " (" + nombres(p.resp) + ")" : " (sin responsable)");
+        if (p.fecha) s += " – " + fechaLinda(p.fecha);
+        if (p.nota) s += " – " + (id === "trabado" ? "necesita: " : "") + p.nota;
+        else if (p.tareas.length) s += " – " + hechas(p) + " de " + p.tareas.length + " pasos";
+        l.push(s);
+        if (yo) p.tareas.forEach(function (t) { if (t.quien === yo && !t.hecho) l.push("   ◦ " + t.texto); });
+      });
+      l.push("");
+    });
+    var he = visibles("hecho"); if (he.length) { algo = true; l.push("✅ *Hecho*"); he.slice(-5).forEach(function (p) { l.push("• " + p.titulo + " 🎉"); }); l.push(""); }
+    if (yo && !algo) { l.push("Por ahora no hay nada a su nombre."); l.push(""); }
+    var ni = yo ? 0 : visibles("ideas").length; if (ni) { l.push("💡 *Ideas para charlar:* " + ni); l.push(""); }
+    l.push("🔗 Tablero completo: " + enlaceTablero());
+    return l.join("\n").trim();
+  }
+
+  /* ---------- Diálogos ---------- */
+  var dlg = document.createElement("dialog"); document.body.appendChild(dlg);
+  dlg.addEventListener("close", function () { edit = null; dlg.innerHTML = ""; });
+  function opciones(lista, valor, vacio) {
+    return (vacio ? '<option value="">' + vacio + "</option>" : "") + lista.map(function (o) { var v = o.id || o, n = o.nombre || o; return '<option value="' + esc(v) + '"' + (v === valor ? " selected" : "") + ">" + esc(n) + "</option>"; }).join("");
+  }
+
+  function pedirClave(motivo) {
+    edit = { tipo: "clave", motivo: motivo || "", error: "", esperando: false };
+    pintarClave(); if (!dlg.open) dlg.showModal();
+    var c = dlg.querySelector("#f-clave"); if (c) c.focus();
+  }
+  function pintarClave() {
+    var h = '<form id="f-cl"><h2>Editar el tablero</h2>';
+    h += '<p class="bajada">' + esc(edit.motivo || "Para cambiar algo hace falta la clave del grupo. Se pide una sola vez en cada celular.") + "</p>";
+    h += '<label class="campo">Clave del grupo<input class="in" id="f-clave" type="password" autocomplete="current-password" required></label>';
+    if (edit.error) h += '<p class="error-campo" role="alert">' + esc(edit.error) + "</p>";
+    h += '<div class="acciones"><button type="button" class="btn" data-act="cerrar">Cancelar</button><button class="btn pri"' + (edit.esperando ? " disabled" : "") + ">" + (edit.esperando ? "Revisando…" : "Entrar") + "</button></div></form>";
+    dlg.innerHTML = h;
+  }
+  function probarClave(valor) {
+    var anterior = clave; clave = valor; edit.esperando = true; edit.error = ""; pintarClave();
+    pedir("POST", "/api/clave", {}).then(function (r) {
+      if (!edit || edit.tipo !== "clave") return;
+      edit.esperando = false;
+      if (r._estado === 200) {
+        escribirLocal(CLAVE_LOCAL, valor); editando = true; dlg.close(); render();
+        if (pendientes.length) guardar();
+        return;
+      }
+      clave = anterior;
+      edit.error = r._estado === 401 ? "Esa clave no es correcta. Pedila en el grupo de WhatsApp." :
+        r._estado === 503 ? "Todavía no hay una clave configurada en Netlify. Avisale a quien administra el tablero." : "No se pudo revisar la clave. Probá de nuevo en un rato.";
+      pintarClave(); var c = dlg.querySelector("#f-clave"); if (c) { c.value = valor; c.focus(); }
+    }).catch(function () {
+      clave = anterior;
+      if (!edit) return;
+      edit.esperando = false; edit.error = "Sin conexión. Probá de nuevo en un rato."; pintarClave();
+    });
+  }
+
+  function todosAdj() {
+    var r = []; edit.p.adj.forEach(function (a, i) { r.push({ a: a, l: edit.p.adj, i: i, donde: "Proyecto" }); });
+    edit.p.tareas.forEach(function (t, n) { t.adj.forEach(function (a, i) { r.push({ a: a, l: t.adj, i: i, donde: "Paso " + (n + 1) }); }); });
+    return r;
+  }
+  function destino() { var t = porId(edit.p.tareas, edit.donde); return t ? t.adj : edit.p.adj; }
+  function pintarProyecto() {
+    var p = edit.p, h = '<form id="f-proy"><h2>' + (edit.nuevo ? "Nuevo proyecto" : "Cambiar proyecto") + "</h2>";
+    h += '<label class="campo">Nombre del proyecto<input class="in" id="f-titulo" required maxlength="120" value="' + esc(p.titulo) + '"></label>';
+    h += '<div class="dos"><label class="campo">¿Cómo está?<select class="in" id="f-estado">' + opciones(ESTADOS, p.estado) + "</select></label>";
+    h += '<label class="campo">Tipo<select class="in" id="f-area">' + opciones(datos.areas, p.area, "Sin tipo") + "</select></label>";
+    h += '<label class="campo">Fecha (solo si hay una real)<input class="in" id="f-fecha" type="date" value="' + esc(p.fecha) + '"></label>';
+    h += '<label class="campo">Código para WhatsApp<input class="in" id="f-codigo" maxlength="13" value="' + esc(p.codigo) + '" autocapitalize="characters"></label></div>';
+    h += '<div class="campo">Responsables (puede ser más de uno)<div class="checks">';
+    edit.personas.forEach(function (n) { h += '<label class="chk"><input type="checkbox" class="fr" value="' + esc(n) + '"' + (p.resp.indexOf(n) >= 0 ? " checked" : "") + ">" + esc(n) + "</label>"; });
+    h += '</div><div class="par"><input class="in" id="f-pers" maxlength="40" aria-label="Sumar una persona que no está en la lista" placeholder="¿Falta alguien? Escribí el nombre"><button type="button" class="btn x" data-act="mas-pers" aria-label="Sumar persona">+</button></div></div>';
+    h += '<label class="campo">Nota (qué se necesita o un dato útil)<input class="in" id="f-nota" maxlength="200" value="' + esc(p.nota) + '"></label>';
+    h += '<div class="campo">Pasos<div class="grupo-campos">';
+    p.tareas.forEach(function (t, i) {
+      h += '<div class="paso-ed" data-i="' + i + '"><input class="in pt" id="f-pt-' + i + '" maxlength="160" aria-label="Paso ' + (i + 1) + '" placeholder="Qué hay que hacer" value="' + esc(t.texto) + '">';
+      h += '<button type="button" class="btn x" data-act="quitar-paso" data-i="' + i + '" aria-label="Quitar paso ' + (i + 1) + '">✕</button>';
+      h += '<select class="in pq" id="f-pq-' + i + '" aria-label="Quién hace el paso ' + (i + 1) + '">' + opciones(edit.personas, t.quien, "Cualquiera") + "</select></div>";
+    });
+    h += '</div><button type="button" class="btn" style="align-self:flex-start" data-act="mas-paso">Agregar paso</button></div>';
+    h += '<div class="campo">Fotos y enlaces<span class="ayuda">Los archivos, audios y documentos van al grupo de WhatsApp con el código del proyecto. Acá, solo fotos y enlaces.</span>';
+    todosAdj().forEach(function (x, i) { h += '<div class="renglon"><span>' + esc(x.a.nombre) + ' <span class="nota">· ' + x.donde + '</span></span><button type="button" class="enlace-btn" data-act="quitar-adj" data-i="' + i + '">Quitar</button></div>'; });
+    if (p.tareas.length) {
+      h += '<select class="in" id="f-donde" aria-label="Dónde va lo nuevo"><option value="">Lo nuevo va en el proyecto</option>';
+      p.tareas.forEach(function (t, i) { h += '<option value="' + t.id + '"' + (edit.donde === t.id ? " selected" : "") + ">Lo nuevo va en el paso " + (i + 1) + (t.texto ? ": " + esc(t.texto.slice(0, 30)) : "") + "</option>"; });
+      h += "</select>";
+    }
+    h += '<label class="btn subir">' + (edit.subiendo ? "Subiendo…" : "Agregar foto") + '<input type="file" id="f-foto" accept="image/*" multiple' + (edit.subiendo ? " disabled" : "") + "></label>";
+    h += '<input class="in" id="f-linkn" maxlength="80" aria-label="Nombre del enlace" placeholder="Nombre del enlace (opcional)" value="' + esc(edit.linkn) + '">';
+    h += '<div class="par"><input class="in" id="f-link" inputmode="url" maxlength="500" aria-label="Enlace" placeholder="Pegá un enlace (Drive, YouTube…)" value="' + esc(edit.link) + '"><button type="button" class="btn x" data-act="mas-link" aria-label="Agregar enlace">+</button></div>';
+    if (edit.msg) h += '<p class="error-campo" role="alert">' + esc(edit.msg) + "</p>";
+    h += '</div><div class="acciones">';
+    if (!edit.nuevo) h += edit.borrar
+      ? '<span class="izq fila"><button type="button" class="btn peligro" data-act="borrar-si">Sí, eliminar</button><button type="button" class="btn" data-act="borrar-no">No</button></span>'
+      : '<button type="button" class="enlace-btn izq" style="color:var(--critico);text-decoration-color:var(--critico)" data-act="borrar">Eliminar proyecto</button>';
+    h += '<button type="button" class="btn" data-act="cerrar">Cancelar</button><button class="btn pri"' + (edit.subiendo ? " disabled" : "") + ">Guardar</button></div></form>";
+    dlg.innerHTML = h;
+  }
+  function leerProyecto() {
+    var p = edit.p, v = function (id) { var el = dlg.querySelector("#" + id); return el ? el.value.trim() : ""; };
+    p.titulo = v("f-titulo"); p.estado = v("f-estado"); p.area = v("f-area"); p.fecha = v("f-fecha"); p.nota = v("f-nota");
+    edit.codigo = v("f-codigo");
+    p.resp = [].map.call(dlg.querySelectorAll(".fr:checked"), function (c) { return c.value; });
+    dlg.querySelectorAll(".paso-ed").forEach(function (f, i) { p.tareas[i].texto = f.querySelector(".pt").value.trim(); p.tareas[i].quien = f.querySelector(".pq").value; });
+    edit.donde = v("f-donde"); edit.link = v("f-link"); edit.linkn = v("f-linkn");
+  }
+  function sumarEnlace() {
+    var u = edit.link; if (!u) return true;
+    if (!/^https?:\/\//i.test(u)) u = "https://" + u;
+    var host; try { host = new URL(u).hostname; } catch (e) { edit.msg = "Ese enlace no parece válido. Copialo de nuevo desde el navegador o la app."; return false; }
+    destino().push({ id: uid(), tipo: "link", nombre: edit.linkn || host.replace(/^www\./, ""), url: u }); edit.link = ""; edit.linkn = "";
+    return true;
+  }
+  function abrirProyecto(id) {
+    var orig = id && porId(datos.proyectos, id);
+    var p = orig ? copia(orig) : { id: uid(), titulo: "", codigo: "", estado: "decidido", area: "", resp: [], fecha: "", nota: "", tareas: [], adj: [] };
+    edit = { tipo: "proy", nuevo: !orig, borrar: false, donde: "", link: "", linkn: "", msg: "", subiendo: false, codigo: p.codigo, personas: datos.personas.slice(), p: p };
+    pintarProyecto(); dlg.showModal();
+    if (!orig) dlg.querySelector("#f-titulo").focus();
+  }
+
+  /* Las fotos se achican antes de subir: 1600px de lado como máximo, en JPEG. */
+  function achicar(archivo) {
+    return new Promise(function (ok, mal) {
+      var url = URL.createObjectURL(archivo), img = new Image();
+      img.onload = function () {
+        var max = 1600, w = img.naturalWidth, h = img.naturalHeight, f = Math.min(1, max / Math.max(w, h));
+        var c = document.createElement("canvas"); c.width = Math.round(w * f); c.height = Math.round(h * f);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        c.toBlob(function (b) { b ? ok(b) : mal(new Error("sin imagen")); }, "image/jpeg", 0.82);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); mal(new Error("no se pudo leer")); };
+      img.src = url;
+    });
+  }
+  function subirFotos(archivos) {
+    var e = edit, malos = 0, i = 0, dest = destino();
+    e.subiendo = true; e.msg = ""; pintarProyecto();
+    function fin() {
+      e.subiendo = false;
+      if (malos) e.msg = malos === 1 ? "Una foto no se pudo subir. Probá con otra o mandala al grupo de WhatsApp." : malos + " fotos no se pudieron subir. Probá con otras o mandalas al grupo de WhatsApp.";
+      if (edit === e) { leerProyecto(); pintarProyecto(); }
+    }
+    function sig() {
+      if (i >= archivos.length) return fin();
+      var f = archivos[i++];
+      achicar(f).then(function (b) { return pedir("POST", "/api/imagen", b, "image/jpeg"); }).then(function (r) {
+        if (r._estado === 200 && idImagen(r.id)) dest.push({ id: uid(), tipo: "img", nombre: f.name || "Foto", img: r.id });
+        else malos++;
+        sig();
+      }).catch(function () { malos++; sig(); });
+    }
+    sig();
+  }
+
+  function pintarAjustes() {
+    var h = '<form id="f-aj"><h2>Personas y tipos</h2>';
+    h += '<div class="campo">Personas del grupo<span class="ayuda">Cualquier nombre sirve: no hace falta que la persona use el tablero.</span>';
+    edit.personas.forEach(function (n, i) { h += '<div class="renglon"><span>' + esc(n) + '</span><button type="button" class="enlace-btn" data-act="quitar-pers" data-i="' + i + '">Quitar</button></div>'; });
+    h += '<div class="par"><input class="in" id="f-pers" maxlength="40" aria-label="Nombre de la persona" placeholder="Nombre"><button type="button" class="btn x" data-act="mas-pers" aria-label="Agregar persona">+</button></div></div>';
+    h += '<div class="campo">Tipos de proyecto';
+    edit.areas.forEach(function (a, i) { h += '<div class="renglon"><span>' + esc(a.nombre) + '</span><button type="button" class="enlace-btn" data-act="quitar-tipo" data-i="' + i + '">Quitar</button></div>'; });
+    h += '<div class="par"><input class="in" id="f-tipo" maxlength="30" aria-label="Nombre del tipo nuevo" placeholder="Tipo nuevo"><button type="button" class="btn x" data-act="mas-tipo" aria-label="Agregar tipo">+</button></div></div>';
+    h += '<label class="campo">Enlace del tablero (va al final del resumen de WhatsApp)<input class="in" id="f-enlace" type="url" maxlength="300" placeholder="' + esc(location.origin + "/") + '" value="' + esc(edit.enlace) + '"></label>';
+    h += '<div class="acciones"><button type="button" class="btn" data-act="cerrar">Cancelar</button><button class="btn pri">Guardar</button></div></form>';
+    dlg.innerHTML = h;
+  }
+  function leerAjustes() { edit.enlace = dlg.querySelector("#f-enlace").value.trim(); }
+  function sumarPersona() {
+    var el = dlg.querySelector("#f-pers"), n = el ? el.value.trim() : "";
+    if (n && edit.personas.indexOf(n) < 0) edit.personas.push(n);
+    return n;
+  }
+  function sumarTipo() {
+    var n = dlg.querySelector("#f-tipo").value.trim();
+    if (!n || edit.areas.some(function (a) { return a.nombre.toLowerCase() === n.toLowerCase(); })) return;
+    edit.areas.push({ id: uid(), nombre: n });
+  }
+
+  dlg.addEventListener("click", function (ev) {
+    var b = ev.target.closest("[data-act]"); if (!b || !edit) return;
+    var a = b.dataset.act, i = +b.dataset.i;
+    if (a === "cerrar") { dlg.close(); return; }
+    if (edit.tipo === "proy") {
+      leerProyecto(); edit.msg = "";
+      if (a === "mas-paso") edit.p.tareas.push({ id: uid(), texto: "", quien: "", hecho: false, adj: [] });
+      if (a === "quitar-paso") edit.p.tareas.splice(i, 1);
+      if (a === "mas-pers") { var nueva = sumarPersona(); if (nueva && edit.p.resp.indexOf(nueva) < 0) edit.p.resp.push(nueva); }
+      if (a === "mas-link") sumarEnlace();
+      if (a === "quitar-adj") { var x = todosAdj()[i]; if (x) x.l.splice(x.i, 1); }
+      if (a === "borrar") edit.borrar = true;
+      if (a === "borrar-no") edit.borrar = false;
+      if (a === "borrar-si") { var id = edit.p.id; dlg.close(); cambiar(function (d) { d.proyectos = d.proyectos.filter(function (p) { return p.id !== id; }); }); avisar("Proyecto eliminado."); return; }
+      pintarProyecto();
+      if (a === "mas-paso") { var ult = dlg.querySelector("#f-pt-" + (edit.p.tareas.length - 1)); if (ult) ult.focus(); }
+      if (a === "mas-pers") dlg.querySelector("#f-pers").focus();
+      if (a === "mas-link") dlg.querySelector("#f-link").focus();
+    } else if (edit.tipo === "aj") {
+      leerAjustes();
+      if (a === "mas-pers") sumarPersona();
+      if (a === "quitar-pers") edit.personas.splice(i, 1);
+      if (a === "mas-tipo") sumarTipo();
+      if (a === "quitar-tipo") edit.areas.splice(i, 1);
+      pintarAjustes();
+      if (a === "mas-pers") dlg.querySelector("#f-pers").focus();
+      if (a === "mas-tipo") dlg.querySelector("#f-tipo").focus();
+    }
+  });
+  dlg.addEventListener("keydown", function (ev) {
+    if (ev.key !== "Enter" || !edit) return;
+    var id = ev.target.id, act = id === "f-tipo" ? "mas-tipo" : id === "f-pers" ? "mas-pers" : (id === "f-link" || id === "f-linkn") ? "mas-link" : "";
+    if (act) { ev.preventDefault(); var btn = dlg.querySelector('[data-act="' + act + '"]'); if (btn) btn.click(); }
+  });
+  dlg.addEventListener("change", function (ev) {
+    if (ev.target.id !== "f-foto" || !edit || edit.tipo !== "proy") return;
+    var fs = [].slice.call(ev.target.files || []);
+    if (!fs.length) return;
+    leerProyecto(); subirFotos(fs);
+  });
+  dlg.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    if (!edit) return;
+    if (edit.tipo === "clave") { var v = dlg.querySelector("#f-clave").value; if (v) probarClave(v); return; }
+    if (edit.tipo === "proy") {
+      leerProyecto(); sumarPersona();
+      if (!sumarEnlace()) { pintarProyecto(); return; }
+      if (edit.subiendo) return;
+      var p = copia(edit.p), personas = edit.personas.slice();
+      p.tareas = p.tareas.filter(function (t) { return t.texto; });
+      var usados = datos.proyectos.filter(function (x) { return x.id !== p.id; }).map(function (x) { return x.codigo; });
+      var cod = limpiarCodigo(edit.codigo);
+      p.codigo = cod && usados.indexOf(cod) < 0 ? cod : generarCodigo(p.titulo, usados);
+      dlg.close();
+      cambiar(function (d) {
+        personas.forEach(function (n) { if (d.personas.indexOf(n) < 0) d.personas.push(n); });
+        var i = d.proyectos.map(function (x) { return x.id; }).indexOf(p.id);
+        if (i < 0) d.proyectos.push(copia(p)); else d.proyectos[i] = copia(p);
+      });
+      return;
+    }
+    if (edit.tipo === "aj") {
+      leerAjustes(); sumarPersona(); sumarTipo();
+      var per = edit.personas.slice(), ars = copia(edit.areas), enl = urlSegura(edit.enlace);
+      dlg.close();
+      cambiar(function (d) {
+        d.personas = per.slice(); d.areas = copia(ars); d.enlace = enl;
+        d.proyectos.forEach(function (p) {
+          p.resp = p.resp.filter(function (n) { return per.indexOf(n) >= 0; });
+          if (p.area && !porId(ars, p.area)) p.area = "";
+          p.tareas.forEach(function (t) { if (per.indexOf(t.quien) < 0) t.quien = ""; });
+        });
+      });
+      if (per.indexOf(yo) < 0) { yo = ""; escribirLocal(CLAVE_YO, ""); render(); }
+    }
+  });
+
+  /* ---------- Eventos de la página ---------- */
+  function copiarTexto(t, ok, falla) {
+    try { navigator.clipboard.writeText(t).then(ok, falla); } catch (e) { falla(); }
+  }
+  app.addEventListener("click", function (ev) {
+    var b = ev.target.closest("[data-act]"); if (!b || b.type === "checkbox") return;
+    var a = b.dataset.act;
+    if (a === "vista") { vista = b.dataset.v; escribirLocal(CLAVE_VISTA, vista); render(); }
+    else if (a === "quien") { quienAbierto = !quienAbierto; render(); }
+    else if (a === "yo") { yo = b.dataset.v; quienAbierto = false; textoWa = ""; escribirLocal(CLAVE_YO, yo); render(); }
+    else if (a === "entrar") { if (clave) { editando = true; render(); } else pedirClave(); }
+    else if (a === "salir") { editando = false; render(); }
+    else if (a === "nuevo") abrirProyecto(null);
+    else if (a === "editar") abrirProyecto(b.dataset.id);
+    else if (a === "promover") { var id = b.dataset.id; cambiar(function (d) { var p = porId(d.proyectos, id); if (p) p.estado = "decidido"; }); avisar("Pasó a «Decidido, por arrancar»."); }
+    else if (a === "ajustes") { edit = { tipo: "aj", enlace: datos.enlace || "", personas: datos.personas.slice(), areas: copia(datos.areas) }; pintarAjustes(); dlg.showModal(); }
+    else if (a === "codigo") {
+      var c = b.dataset.v;
+      copiarTexto(c, function () { avisar("Código " + c + " copiado. Pegalo en el mensaje de WhatsApp."); }, function () { avisar("El código es " + c + ". Escribilo en el mensaje de WhatsApp."); });
+    }
+    else if (a === "copiar") {
+      var t = resumen();
+      copiarTexto(t, function () { avisar("Texto copiado. Pegalo en el grupo."); }, function () {
+        textoWa = t; render(); var ta = document.getElementById("texto-wa"); if (ta) { ta.focus(); ta.select(); } avisar("Mantené apretado el texto y elegí «Copiar».");
+      });
+    }
+  });
+  app.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var c = app.querySelector("#idea-nueva"), t = c && c.value.trim();
+    if (!t || !editando) return;
+    var nueva = { id: uid(), titulo: t, codigo: "", estado: "ideas", area: "", resp: [], fecha: "", nota: "", tareas: [], adj: [] };
+    abiertos["g-ideas"] = true;
+    cambiar(function (d) { if (!porId(d.proyectos, nueva.id)) d.proyectos.push(copia(nueva)); });
+    var n = app.querySelector("#idea-nueva"); if (n) n.focus();
+  });
+  app.addEventListener("change", function (ev) {
+    var c = ev.target; if (c.dataset.act !== "tildar") return;
+    var pid = c.dataset.p, tid = c.dataset.t, val = c.checked;
+    cambiar(function (d) { var p = porId(d.proyectos, pid), t = p && porId(p.tareas, tid); if (t) t.hecho = val; });
+  });
+  app.addEventListener("toggle", function (ev) { var id = ev.target.dataset && ev.target.dataset.id; if (id) abiertos[id] = ev.target.open; }, true);
+
+  cargar().then(function () {
+    if (yo && datos.personas.indexOf(yo) < 0) yo = "";
+    render();
+  }).catch(function () {
+    app.innerHTML = '<p class="cargando">No se pudo cargar el tablero. Revisá la conexión y volvé a abrir la página.</p>';
+  });
+})();
+</script>
+</body>
+</html>
